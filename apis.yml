@@ -28,16 +28,11 @@ created: '2024-12-03'
 modified: '2026-03-16'
 position: Consuming
 description: >-
-  The US Citizenship and Immigration Services (USCIS) is a government agency
-  responsible for overseeing lawful immigration to the United States. Its
-  primary function is to process and adjudicate applications for various
-  immigration benefits, such as green cards, work permits, and naturalization.
-  USCIS also conducts background checks, interviews applicants, and makes
-  decisions on eligibility for immigration status. Additionally, the agency
-  provides information and resources to help immigrants navigate the complex
-  immigration system. USCIS plays a vital role in upholding the nation's
-  immigration laws and ensuring that individuals seeking to live and work in the
-  US do so legally and responsibly.
+  The US Citizenship and Immigration Services (USCIS) is a government agency responsible
+  for overseeing lawful immigration to the United States. Its primary function is
+  to process and adjudicate applications for various immigration benefits, such as
+  green cards, work permits, and naturalization. USCIS also conducts background checks,
+  interviews applicants, and makes decisions on eligibility for immigration status.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
