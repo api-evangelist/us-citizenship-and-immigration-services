@@ -5,8 +5,7 @@ apis:
   - aid: >-
       us-citizenship-and-immigration-services:us-citizenship-and-immigration-services
     name: US Citizenship and Immigration Services
-    tags:
-      - API
+    tags: []
     humanURL: https://my.uscis.gov
     properties:
       - url: https://my.uscis.gov
