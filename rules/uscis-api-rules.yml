@@ -1,0 +1,107 @@
+rules:
+  uscis-info-contact:
+    description: USCIS API specs must include contact information
+    message: "Contact information is required in info object"
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  uscis-operation-tags:
+    description: All operations must be tagged
+    message: "Operation must have at least one tag"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  uscis-operation-summary:
+    description: All operations must have a summary in Title Case
+    message: "Operation '{{property}}' must have a summary"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  uscis-operation-id:
+    description: All operations must have an operationId
+    message: "Operation must have an operationId"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  uscis-operation-description:
+    description: All operations must have a description
+    message: "Operation must have a description"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: description
+      function: truthy
+
+  uscis-parameter-description:
+    description: All parameters must have a description
+    message: "Parameter must have a description"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].parameters[*]"
+    then:
+      field: description
+      function: truthy
+
+  uscis-oauth2-security:
+    description: USCIS APIs should use OAuth 2.0 security
+    message: "Security schemes should include OAuth2"
+    severity: warn
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy
+
+  uscis-response-schema:
+    description: All 200/201 responses must have a schema
+    message: "Successful responses must have content with schema"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].responses[200,201]"
+    then:
+      field: content
+      function: truthy
+
+  uscis-receipt-number-pattern:
+    description: Receipt number path parameters should have a pattern
+    message: "Receipt number parameter should have pattern validation"
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete].parameters[?(@.name == 'receiptNumber')]"
+    then:
+      field: schema.pattern
+      function: truthy
+
+  uscis-error-responses:
+    description: Operations should document 401 and 429 error responses
+    message: "Operations should document 401 Unauthorized responses"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].responses"
+    then:
+      field: "401"
+      function: truthy
+
+  uscis-json-content-type:
+    description: USCIS API should use JSON content types
+    message: "Request and response bodies must use application/json"
+    severity: warn
+    given: "$.paths[*][post,put,patch].requestBody.content"
+    then:
+      field: application/json
+      function: truthy
+
+  uscis-version-in-info:
+    description: API must specify version
+    message: "API must include version information"
+    severity: error
+    given: "$.info"
+    then:
+      field: version
+      function: truthy

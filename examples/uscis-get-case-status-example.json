@@ -1,0 +1,68 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api-int.uscis.gov/case-status/EAC9999103402",
+    "headers": {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "receiptNumber": "EAC9999103402",
+      "formType": "I-485",
+      "submittedDate": "2023-03-15",
+      "modifiedDate": "2024-01-20",
+      "status": "Case Was Approved",
+      "description": "On January 20, 2024, we approved your Form I-485, Application to Register Permanent Residence or Adjust Status. We will mail your new Permanent Resident Card (Green Card) to you within 30 days.",
+      "statusEsDesc": "El 20 de enero de 2024, aprobamos su Formulario I-485, Solicitud para Registrar Residencia Permanente o Ajustar Estatus. Le enviaremos su nueva Tarjeta de Residente Permanente (Tarjeta Verde) dentro de los 30 días.",
+      "historicalCaseStatuses": [
+        {
+          "status": "Card Was Mailed to Me",
+          "date": "2024-02-05",
+          "description": "On February 5, 2024, we mailed your new Permanent Resident Card.",
+          "descriptionEsDesc": "El 5 de febrero de 2024, enviamos su nueva Tarjeta de Residente Permanente."
+        },
+        {
+          "status": "Case Was Approved",
+          "date": "2024-01-20",
+          "description": "On January 20, 2024, we approved your Form I-485.",
+          "descriptionEsDesc": "El 20 de enero de 2024, aprobamos su Formulario I-485."
+        },
+        {
+          "status": "Interview Was Scheduled",
+          "date": "2023-11-01",
+          "description": "On November 1, 2023, we scheduled your interview.",
+          "descriptionEsDesc": "El 1 de noviembre de 2023, programamos su entrevista."
+        },
+        {
+          "status": "Response to Request for Evidence Was Received",
+          "date": "2023-09-28",
+          "description": "On September 28, 2023, we received your response to our request for evidence.",
+          "descriptionEsDesc": "El 28 de septiembre de 2023, recibimos su respuesta a nuestra solicitud de evidencia."
+        },
+        {
+          "status": "Request for Evidence Was Sent",
+          "date": "2023-07-15",
+          "description": "On July 15, 2023, we sent you a request for evidence.",
+          "descriptionEsDesc": "El 15 de julio de 2023, le enviamos una solicitud de evidencia."
+        },
+        {
+          "status": "Biometrics Appointment Was Scheduled",
+          "date": "2023-04-10",
+          "description": "On April 10, 2023, we scheduled your biometrics appointment.",
+          "descriptionEsDesc": "El 10 de abril de 2023, programamos su cita de datos biométricos."
+        },
+        {
+          "status": "Case Was Received",
+          "date": "2023-03-20",
+          "description": "On March 20, 2023, we received your case.",
+          "descriptionEsDesc": "El 20 de marzo de 2023, recibimos su caso."
+        }
+      ]
+    }
+  }
+}

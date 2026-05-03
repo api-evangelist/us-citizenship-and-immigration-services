@@ -1,0 +1,86 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: USCIS Case Status API
+  description: >-
+    USCIS Case Status API providing immigration case status information by
+    receipt number. Returns current status, form type, submission date, and
+    historical status timeline in English and Spanish.
+  tags:
+    - Federal Government
+    - Immigration
+    - Case Status
+    - USCIS
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      USCIS_CLIENT_ID: USCIS_CLIENT_ID
+      USCIS_CLIENT_SECRET: USCIS_CLIENT_SECRET
+
+capability:
+  consumes:
+    - type: http
+      namespace: uscis-case-status
+      baseUri: https://api-int.uscis.gov/case-status
+      description: USCIS Case Status API for immigration case status lookup
+      authentication:
+        type: bearer
+        token: "{{USCIS_ACCESS_TOKEN}}"
+      resources:
+        - name: case-status
+          path: /
+          description: Immigration case status by receipt number
+          operations:
+            - name: get-case-status
+              method: GET
+              description: Retrieve case status for a specific USCIS receipt number
+              inputParameters:
+                - name: receiptNumber
+                  in: path
+                  type: string
+                  required: true
+                  description: 13-character USCIS receipt number
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8101
+      namespace: uscis-case-status-rest
+      resources:
+        - path: /v1/cases/{receiptNumber}
+          name: case-status-item
+          description: Get case status by receipt number
+          operations:
+            - method: GET
+              name: get-case-status
+              description: Retrieve immigration case status
+              call: "uscis-case-status.get-case-status"
+              with:
+                receiptNumber: "rest.receiptNumber"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9101
+      namespace: uscis-case-status-mcp
+      transport: http
+      tools:
+        - name: get-case-status
+          description: Retrieve USCIS immigration case status by receipt number
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uscis-case-status.get-case-status"
+          with:
+            receiptNumber: "tools.receiptNumber"
+          outputParameters:
+            - type: object
+              mapping: "$."

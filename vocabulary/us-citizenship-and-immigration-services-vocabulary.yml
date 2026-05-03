@@ -1,0 +1,184 @@
+vocabulary:
+  name: US Citizenship and Immigration Services Vocabulary
+  description: >-
+    Domain vocabulary for the US Citizenship and Immigration Services (USCIS),
+    covering immigration case types, form numbers, processing status terminology,
+    benefit categories, organizational structure, and the Torch API program
+    for software developer integration.
+  version: '1.0'
+  created: '2026-05-03'
+  modified: '2026-05-03'
+  tags:
+    - Federal Government
+    - Immigration
+    - Citizenship
+    - USCIS
+
+terms:
+  - term: Receipt Number
+    definition: >-
+      A 13-character unique identifier assigned to every USCIS immigration
+      application upon receipt. Format: 3-letter service center prefix
+      (EAC, LIN, SRC, IOE, MSC, NBC, WAC, YSC) followed by 10 digits.
+      Used to look up case status via the USCIS Case Status API.
+    examples:
+      - EAC9999103402 (Vermont Service Center)
+      - LIN9912345678 (Nebraska Service Center)
+      - SRC0012345678 (Texas Service Center)
+
+  - term: Alien Number (A-Number)
+    abbreviation: A-Number
+    definition: >-
+      A unique 7-, 8-, or 9-digit number assigned to non-citizens by USCIS.
+      Also called the Alien Registration Number. Format: the letter A followed
+      by 8 or 9 digits (e.g., A012345678). Used to identify individuals in
+      the USCIS system and required for FOIA/Alien File requests.
+
+  - term: Alien File
+    definition: >-
+      The official USCIS records file for a specific non-citizen, containing
+      all immigration forms, supporting documents, correspondence, and
+      decision notices related to that person's immigration history with USCIS.
+      Can be requested through the FOIA Request and Status API.
+
+  - term: Torch API Program
+    definition: >-
+      The USCIS program that enables qualified immigration software developers
+      to access USCIS APIs via the developer portal at developer.uscis.gov.
+      Provides OAuth 2.0-secured access to case status and FOIA APIs for
+      integration into immigration case management software.
+
+  - term: Form I-485
+    definition: >-
+      Application to Register Permanent Residence or Adjust Status. Filed by
+      eligible individuals already in the US to obtain permanent resident
+      status (green card) without leaving the country.
+
+  - term: Form I-130
+    definition: >-
+      Petition for Alien Relative. Filed by US citizens and lawful permanent
+      residents to establish relationship to a foreign national relative who
+      seeks to immigrate.
+
+  - term: Form I-765
+    definition: >-
+      Application for Employment Authorization. Filed to request an Employment
+      Authorization Document (EAD/work permit).
+
+  - term: Form I-90
+    definition: >-
+      Application to Replace Permanent Resident Card. Filed to renew or
+      replace a green card.
+
+  - term: Form N-400
+    definition: >-
+      Application for Naturalization. Filed by eligible permanent residents
+      to become US citizens.
+
+  - term: Form I-140
+    definition: >-
+      Immigrant Petition for Alien Workers. Filed by employers to petition
+      for foreign workers in employment-based immigrant visa categories.
+
+  - term: Green Card
+    definition: >-
+      Informal name for the Permanent Resident Card (Form I-551) which
+      grants lawful permanent resident (LPR) status to immigrants in the US.
+
+  - term: Employment Authorization Document (EAD)
+    abbreviation: EAD
+    definition: >-
+      A work permit issued by USCIS that provides employment authorization
+      to eligible non-citizens. Also called a work card or EAD card.
+
+  - term: Request for Evidence (RFE)
+    abbreviation: RFE
+    definition: >-
+      A notice issued by USCIS requesting additional documentation or
+      information from an applicant before a decision can be made. Represented
+      as a case status event in the Case Status API timeline.
+
+  - term: Notice of Intent to Deny (NOID)
+    abbreviation: NOID
+    definition: >-
+      A notice that USCIS intends to deny an application, giving the applicant
+      an opportunity to submit a response before the final decision.
+
+  - term: Biometrics
+    definition: >-
+      Fingerprints, photograph, and signature captured at an Application Support
+      Center (ASC) appointment. Required for most USCIS applications. A
+      biometrics appointment is a common case status milestone visible in the
+      Case Status API.
+
+  - term: Service Center
+    definition: >-
+      USCIS processing centers that handle immigration applications. Receipt
+      number prefixes indicate which service center received the application:
+      EAC (Vermont), LIN (Nebraska), SRC (Texas), WAC (California),
+      MSC (Missouri), NBC (National Benefits Center).
+
+  - term: Freedom of Information Act (FOIA)
+    abbreviation: FOIA
+    definition: >-
+      US federal law providing public access to government records. USCIS's
+      FOIA Request and Status API allows programmatic submission of FOIA
+      requests for Alien File records.
+
+  - term: Privacy Act
+    abbreviation: PA
+    definition: >-
+      US federal law governing collection, maintenance, use, and dissemination
+      of personal information by the government. Privacy Act requests can be
+      submitted alongside FOIA requests via the USCIS FOIA API.
+
+  - term: OAuth 2.0 Client Credentials
+    definition: >-
+      The authentication flow used by all USCIS Torch APIs. Applications
+      exchange their client_id and client_secret for a Bearer access token
+      valid for 1,800 seconds (30 minutes) from the token endpoint at
+      https://api-int.uscis.gov/oauth/accesstoken.
+
+  - term: myUSCIS
+    definition: >-
+      The USCIS online account portal at my.uscis.gov where individual
+      applicants can track cases, file forms online, and manage their
+      immigration benefits.
+
+case_statuses:
+  - status: Case Was Received
+    description: Initial status after USCIS receives an application
+  - status: Biometrics Appointment Was Scheduled
+    description: USCIS has scheduled a biometrics (fingerprinting) appointment
+  - status: Case Is Being Actively Reviewed by USCIS
+    description: USCIS is actively reviewing the case
+  - status: Request for Evidence Was Sent
+    description: USCIS has sent a Request for Evidence (RFE) requiring additional documentation
+  - status: Response to Request for Evidence Was Received
+    description: USCIS has received the applicant's RFE response
+  - status: Interview Was Scheduled
+    description: USCIS has scheduled an interview appointment
+  - status: Case Was Approved
+    description: Application has been approved
+  - status: Card Was Mailed to Me
+    description: A card (green card or EAD) has been mailed
+  - status: Case Was Denied
+    description: Application has been denied
+  - status: Case Was Reopened
+    description: A previously closed case has been reopened
+
+service_center_prefixes:
+  - prefix: EAC
+    center: Vermont Service Center
+  - prefix: LIN
+    center: Nebraska Service Center
+  - prefix: SRC
+    center: Texas Service Center
+  - prefix: WAC
+    center: California Service Center
+  - prefix: MSC
+    center: Missouri Service Center (Contractor)
+  - prefix: NBC
+    center: National Benefits Center
+  - prefix: IOE
+    center: USCIS Electronic Immigration System

@@ -1,0 +1,84 @@
+{
+  "name": "USCIS Case Status Response",
+  "description": "The structure of a USCIS Case Status API response for an immigration case lookup by receipt number",
+  "fields": [
+    {
+      "name": "receiptNumber",
+      "type": "string",
+      "description": "13-character USCIS receipt number (3-letter prefix + 10 digits)",
+      "required": true
+    },
+    {
+      "name": "formType",
+      "type": "string",
+      "description": "USCIS form type (e.g., I-485, I-130, I-765, N-400)",
+      "required": false
+    },
+    {
+      "name": "submittedDate",
+      "type": "date",
+      "description": "Date the application was submitted to USCIS",
+      "required": false
+    },
+    {
+      "name": "modifiedDate",
+      "type": "date",
+      "description": "Date the case status was most recently modified",
+      "required": false
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "Current case status label in English",
+      "required": true
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Detailed English description of the current case status",
+      "required": true
+    },
+    {
+      "name": "statusEsDesc",
+      "type": "string",
+      "description": "Detailed Spanish description of the current case status",
+      "required": false
+    },
+    {
+      "name": "historicalCaseStatuses",
+      "type": "array",
+      "description": "Historical timeline of case status events",
+      "required": false,
+      "items": {
+        "name": "HistoricalStatus",
+        "type": "object",
+        "fields": [
+          {
+            "name": "status",
+            "type": "string",
+            "description": "Status label for this historical event",
+            "required": true
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "description": "Date of this status event",
+            "required": true
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "English description of this historical event",
+            "required": false
+          },
+          {
+            "name": "descriptionEsDesc",
+            "type": "string",
+            "description": "Spanish description of this historical event",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

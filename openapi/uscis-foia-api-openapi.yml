@@ -1,0 +1,325 @@
+openapi: 3.1.0
+info:
+  title: USCIS FOIA Request and Status API
+  description: >-
+    The USCIS FOIA Request and Status API enables consumers to submit Freedom
+    of Information Act (FOIA) or Privacy Act (PA) requests for Alien File
+    records and to check the status of submitted requests. When a new request
+    is created, a Request Number is returned that can be used to track the
+    request status. Available through the USCIS Torch API Program at
+    developer.uscis.gov. Authentication uses OAuth 2.0 client credentials flow.
+  version: '1.2.0'
+  contact:
+    name: USCIS Developer Support
+    url: https://developer.uscis.gov/
+  termsOfService: https://developer.uscis.gov/
+externalDocs:
+  description: USCIS FOIA Request and Status API Documentation
+  url: https://developer.uscis.gov/api/foia-request-and-status
+servers:
+  - url: https://api-int.uscis.gov/foia
+    description: USCIS Sandbox/Integration Environment
+tags:
+  - name: FOIA Requests
+    description: Submit and manage FOIA and Privacy Act requests for Alien File records
+paths:
+  /requests:
+    post:
+      operationId: submitFoiaRequest
+      summary: Submit FOIA or Privacy Act Request
+      description: >-
+        Create a new Freedom of Information Act (FOIA) or Privacy Act (PA)
+        request for Alien File material. The request can be submitted about or
+        on behalf of the subject of record. A unique Request Number is returned
+        upon successful creation, which can be used to track the request status.
+      tags:
+        - FOIA Requests
+      security:
+        - OAuth2:
+            - write:foia-requests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoiaRequestBody'
+            example:
+              requestType: FOIA
+              subjectFirstName: Jane
+              subjectLastName: Doe
+              subjectDateOfBirth: '1980-06-15'
+              subjectCountryOfBirth: Mexico
+              subjectAlienNumber: A123456789
+              requesterName: Jane Doe
+              requesterEmail: jane.doe@example.com
+              requesterType: self
+              descriptionOfRecords: Requesting complete Alien File including all immigration applications, approvals, and correspondence
+              deliveryMethod: email
+      responses:
+        '201':
+          description: FOIA request successfully submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoiaRequestCreatedResponse'
+              example:
+                requestNumber: USCIS-2024-001234
+                status: Received
+                submittedDate: '2024-01-15'
+                estimatedCompletionDate: '2024-07-15'
+                message: Your FOIA request has been received and assigned number USCIS-2024-001234
+        '400':
+          description: Bad request - invalid request body or missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - invalid or expired OAuth 2.0 access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /requests/{requestNumber}:
+    get:
+      operationId: getFoiaRequestStatus
+      summary: Get FOIA Request Status
+      description: >-
+        Check the current status of a submitted FOIA or Privacy Act request
+        using the Request Number returned when the request was created.
+        Returns the current processing status and any available updates.
+      tags:
+        - FOIA Requests
+      security:
+        - OAuth2:
+            - read:foia-requests
+      parameters:
+        - name: requestNumber
+          in: path
+          required: true
+          description: >-
+            The FOIA request number returned when the request was submitted.
+            Format: USCIS-YYYY-NNNNNN
+          schema:
+            type: string
+            pattern: '^USCIS-\d{4}-\d{6}$'
+          example: USCIS-2024-001234
+      responses:
+        '200':
+          description: FOIA request status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoiaRequestStatusResponse'
+              example:
+                requestNumber: USCIS-2024-001234
+                status: In Process
+                requestType: FOIA
+                submittedDate: '2024-01-15'
+                lastUpdated: '2024-03-01'
+                estimatedCompletionDate: '2024-07-15'
+                subjectName: Jane Doe
+                notes: Request is currently being processed by the National Records Center
+        '401':
+          description: Unauthorized - invalid or expired access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Request number not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 Client Credentials flow. Obtain an access token from the
+        USCIS token endpoint using your client_id and client_secret registered
+        at developer.uscis.gov. Tokens expire after 1,800 seconds (30 minutes).
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-int.uscis.gov/oauth/accesstoken
+          scopes:
+            read:foia-requests: Read FOIA request status
+            write:foia-requests: Submit FOIA requests
+  schemas:
+    FoiaRequestBody:
+      type: object
+      description: Body for submitting a new FOIA or Privacy Act request
+      required:
+        - requestType
+        - subjectFirstName
+        - subjectLastName
+        - requesterName
+        - requesterEmail
+        - requesterType
+        - descriptionOfRecords
+      properties:
+        requestType:
+          type: string
+          description: Type of records request
+          enum:
+            - FOIA
+            - PrivacyAct
+        subjectFirstName:
+          type: string
+          description: First name of the subject of the Alien File
+          example: Jane
+        subjectLastName:
+          type: string
+          description: Last name of the subject of the Alien File
+          example: Doe
+        subjectMiddleName:
+          type: string
+          description: Middle name of the subject
+        subjectDateOfBirth:
+          type: string
+          format: date
+          description: Date of birth of the subject
+          example: '1980-06-15'
+        subjectCountryOfBirth:
+          type: string
+          description: Country of birth of the subject
+          example: Mexico
+        subjectAlienNumber:
+          type: string
+          description: USCIS Alien Registration Number (A-Number), if known
+          pattern: '^A\d{8,9}$'
+          example: A123456789
+        subjectReceiptNumber:
+          type: string
+          description: USCIS receipt number for related case, if known
+        requesterName:
+          type: string
+          description: Full name of the person submitting the request
+        requesterEmail:
+          type: string
+          format: email
+          description: Email address for response delivery
+        requesterType:
+          type: string
+          description: Relationship of requester to subject
+          enum:
+            - self
+            - attorney
+            - accredited_representative
+            - family_member
+            - other
+        descriptionOfRecords:
+          type: string
+          description: Description of the records being requested
+        deliveryMethod:
+          type: string
+          description: Preferred method for receiving records
+          enum:
+            - email
+            - usps
+            - portal
+          default: email
+        feeWaiverRequest:
+          type: boolean
+          description: Whether the requester is requesting a fee waiver
+          default: false
+        expeditedProcessingRequest:
+          type: boolean
+          description: Whether the requester is requesting expedited processing
+          default: false
+        expeditedProcessingJustification:
+          type: string
+          description: Justification for expedited processing, if requested
+    FoiaRequestCreatedResponse:
+      type: object
+      description: Response returned when a FOIA request is successfully submitted
+      properties:
+        requestNumber:
+          type: string
+          description: Unique identifier for the FOIA request
+          example: USCIS-2024-001234
+        status:
+          type: string
+          description: Initial status of the request
+          example: Received
+        submittedDate:
+          type: string
+          format: date
+          description: Date the request was submitted
+        estimatedCompletionDate:
+          type: string
+          format: date
+          description: Estimated date for request completion
+        message:
+          type: string
+          description: Confirmation message
+    FoiaRequestStatusResponse:
+      type: object
+      description: Current status of a submitted FOIA request
+      properties:
+        requestNumber:
+          type: string
+          description: The FOIA request number
+          example: USCIS-2024-001234
+        status:
+          type: string
+          description: Current processing status
+          enum:
+            - Received
+            - In Process
+            - Awaiting Clarification
+            - Records Located
+            - Review in Progress
+            - Response Sent
+            - Closed
+            - Appealed
+          example: In Process
+        requestType:
+          type: string
+          description: Type of request (FOIA or PrivacyAct)
+        submittedDate:
+          type: string
+          format: date
+          description: Date the request was submitted
+        lastUpdated:
+          type: string
+          format: date
+          description: Date of the most recent status update
+        estimatedCompletionDate:
+          type: string
+          format: date
+          description: Estimated completion date
+        subjectName:
+          type: string
+          description: Name of the subject of the Alien File
+        notes:
+          type: string
+          description: Additional processing notes or status details
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: string
+          description: Additional error details

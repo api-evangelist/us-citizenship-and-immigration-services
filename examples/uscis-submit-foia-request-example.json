@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-int.uscis.gov/foia/requests",
+    "headers": {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "requestType": "FOIA",
+      "subjectFirstName": "Jane",
+      "subjectLastName": "Doe",
+      "subjectDateOfBirth": "1980-06-15",
+      "subjectCountryOfBirth": "Mexico",
+      "subjectAlienNumber": "A123456789",
+      "requesterName": "Jane Doe",
+      "requesterEmail": "jane.doe@example.com",
+      "requesterType": "self",
+      "descriptionOfRecords": "Requesting complete Alien File including all immigration applications, approvals, notices, and correspondence on file with USCIS",
+      "deliveryMethod": "email",
+      "feeWaiverRequest": false,
+      "expeditedProcessingRequest": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "requestNumber": "USCIS-2024-001234",
+      "status": "Received",
+      "submittedDate": "2024-01-15",
+      "estimatedCompletionDate": "2024-07-15",
+      "message": "Your FOIA request has been received and assigned request number USCIS-2024-001234. You may check the status of your request using this number."
+    }
+  }
+}

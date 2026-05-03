@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/main/json-schema/uscis-case-status-schema.json",
+  "title": "USCIS Case Status",
+  "description": "JSON Schema for a USCIS immigration case status response, representing the current processing status and historical timeline for an immigration application identified by receipt number.",
+  "type": "object",
+  "required": ["receiptNumber", "status", "description"],
+  "properties": {
+    "receiptNumber": {
+      "type": "string",
+      "description": "The 13-character USCIS receipt number for this immigration case",
+      "pattern": "^(EAC|LIN|SRC|IOE|MSC|NBC|WAC|YSC)\\d{10}$",
+      "examples": ["EAC9999103402", "LIN9912345678", "SRC0012345678"]
+    },
+    "formType": {
+      "type": "string",
+      "description": "USCIS form type associated with this case",
+      "examples": ["I-485", "I-130", "I-765", "I-90", "N-400", "I-140", "I-539"]
+    },
+    "submittedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the immigration application was submitted to USCIS"
+    },
+    "modifiedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the case status was most recently updated"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current case status label in English",
+      "examples": [
+        "Case Was Received",
+        "Case Is Being Actively Reviewed by USCIS",
+        "Request for Evidence Was Sent",
+        "Response to Request for Evidence Was Received",
+        "Case Was Approved",
+        "Card Was Mailed to Me",
+        "Case Was Denied",
+        "Case Was Reopened"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the current case status in English"
+    },
+    "statusEsDesc": {
+      "type": "string",
+      "description": "Detailed description of the current case status in Spanish"
+    },
+    "historicalCaseStatuses": {
+      "type": "array",
+      "description": "Historical timeline of case status events, most recent first",
+      "items": {
+        "$ref": "#/$defs/HistoricalStatus"
+      }
+    }
+  },
+  "$defs": {
+    "HistoricalStatus": {
+      "title": "Historical Status",
+      "description": "A historical case status event in the case timeline",
+      "type": "object",
+      "required": ["status", "date"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status label for this historical event"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of this status event"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this historical status event in English"
+        },
+        "descriptionEsDesc": {
+          "type": "string",
+          "description": "Description of this historical status event in Spanish"
+        }
+      }
+    }
+  }
+}
