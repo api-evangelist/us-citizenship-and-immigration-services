@@ -1,126 +1,218 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
   label: USCIS Immigration Case Management
-  description: >-
-    Unified capability for immigration case management workflows combining the
-    USCIS Case Status API and FOIA Request API. Designed for immigration attorneys,
-    accredited representatives, and case management software providers who need to
+  description: Unified capability for immigration case management workflows combining the USCIS Case Status API and FOIA Request
+    API. Designed for immigration attorneys, accredited representatives, and case management software providers who need to
     monitor client case status and submit records requests on behalf of clients.
   tags:
-    - Federal Government
-    - Immigration
-    - Case Management
-    - Case Status
-    - FOIA
-    - USCIS
-    - Legal Services
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Federal Government
+  - Immigration
+  - Case Management
+  - Case Status
+  - FOIA
+  - USCIS
+  - Legal Services
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      USCIS_CLIENT_ID: USCIS_CLIENT_ID
-      USCIS_CLIENT_SECRET: USCIS_CLIENT_SECRET
-
+- namespace: env
+  keys:
+    USCIS_CLIENT_ID: USCIS_CLIENT_ID
+    USCIS_CLIENT_SECRET: USCIS_CLIENT_SECRET
 capability:
   consumes:
-    - import: uscis-case-status
-      location: ./shared/uscis-case-status-api.yaml
-    - import: uscis-foia
-      location: ./shared/uscis-foia-api.yaml
-
+  - type: http
+    namespace: uscis-case-status
+    baseUri: https://api-int.uscis.gov/case-status
+    description: USCIS Case Status API for immigration case status lookup
+    authentication:
+      type: bearer
+      token: '{{USCIS_ACCESS_TOKEN}}'
+    resources:
+    - name: case-status
+      path: /
+      description: Immigration case status by receipt number
+      operations:
+      - name: get-case-status
+        method: GET
+        description: Retrieve case status for a specific USCIS receipt number
+        inputParameters:
+        - name: receiptNumber
+          in: path
+          type: string
+          required: true
+          description: 13-character USCIS receipt number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: uscis-foia
+    baseUri: https://api-int.uscis.gov/foia
+    description: USCIS FOIA request submission and status tracking API
+    authentication:
+      type: bearer
+      token: '{{USCIS_ACCESS_TOKEN}}'
+    resources:
+    - name: foia-requests
+      path: /requests
+      description: FOIA and Privacy Act request management
+      operations:
+      - name: submit-foia-request
+        method: POST
+        description: Submit a new FOIA or Privacy Act request for Alien File records
+        inputParameters:
+        - name: requestType
+          in: body
+          type: string
+          required: true
+          description: Request type (FOIA or PrivacyAct)
+        - name: subjectFirstName
+          in: body
+          type: string
+          required: true
+          description: First name of the subject
+        - name: subjectLastName
+          in: body
+          type: string
+          required: true
+          description: Last name of the subject
+        - name: subjectDateOfBirth
+          in: body
+          type: string
+          required: false
+          description: Date of birth of the subject
+        - name: subjectAlienNumber
+          in: body
+          type: string
+          required: false
+          description: USCIS A-Number if known
+        - name: requesterName
+          in: body
+          type: string
+          required: true
+          description: Name of the requester
+        - name: requesterEmail
+          in: body
+          type: string
+          required: true
+          description: Email for response delivery
+        - name: requesterType
+          in: body
+          type: string
+          required: true
+          description: Relationship to subject (self, attorney, etc.)
+        - name: descriptionOfRecords
+          in: body
+          type: string
+          required: true
+          description: Description of records requested
+        - name: deliveryMethod
+          in: body
+          type: string
+          required: false
+          description: Delivery method (email, usps, portal)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-foia-request-status
+        method: GET
+        description: Check status of a submitted FOIA request by request number
+        inputParameters:
+        - name: requestNumber
+          in: path
+          type: string
+          required: true
+          description: FOIA request number returned upon submission
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: uscis-immigration-case-management-api
-      description: >-
-        Unified REST API for USCIS immigration case management including case
-        status lookup and FOIA request submission.
-      resources:
-        - path: /v1/cases/{receiptNumber}
-          name: case-status
-          description: Immigration case status by receipt number
-          operations:
-            - method: GET
-              name: get-case-status
-              description: Retrieve current immigration case status and history by receipt number
-              call: "uscis-case-status.get-case-status"
-              with:
-                receiptNumber: "rest.receiptNumber"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/foia-requests
-          name: foia-requests
-          description: FOIA and Privacy Act requests for Alien File records
-          operations:
-            - method: POST
-              name: submit-foia-request
-              description: Submit a new FOIA or Privacy Act request for Alien File records
-              call: "uscis-foia.submit-foia-request"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/foia-requests/{requestNumber}
-          name: foia-request-status
-          description: Status of a submitted FOIA request
-          operations:
-            - method: GET
-              name: get-foia-request-status
-              description: Check the status of a submitted FOIA request
-              call: "uscis-foia.get-foia-request-status"
-              with:
-                requestNumber: "rest.requestNumber"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: uscis-immigration-case-management-mcp
-      transport: http
-      description: >-
-        MCP server for AI-assisted immigration case management including case
-        status monitoring and FOIA request workflows.
-      tools:
-        - name: get-case-status
-          description: >-
-            Retrieve the current immigration case status and complete history
-            for a USCIS receipt number. Returns status in English and Spanish
-            with full historical timeline.
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "uscis-case-status.get-case-status"
-          with:
-            receiptNumber: "tools.receiptNumber"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: submit-foia-request
-          description: >-
-            Submit a Freedom of Information Act (FOIA) or Privacy Act request
-            for USCIS Alien File records on behalf of a client. Returns a
-            request number for status tracking.
-          hints:
-            readOnly: false
-            openWorld: false
-          call: "uscis-foia.submit-foia-request"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-foia-request-status
-          description: >-
-            Check the processing status of a previously submitted USCIS FOIA
-            or Privacy Act request using the request number.
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "uscis-foia.get-foia-request-status"
-          with:
-            requestNumber: "tools.requestNumber"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: uscis-immigration-case-management-api
+    description: Unified REST API for USCIS immigration case management including case status lookup and FOIA request submission.
+    resources:
+    - path: /v1/cases/{receiptNumber}
+      name: case-status
+      description: Immigration case status by receipt number
+      operations:
+      - method: GET
+        name: get-case-status
+        description: Retrieve current immigration case status and history by receipt number
+        call: uscis-case-status.get-case-status
+        with:
+          receiptNumber: rest.receiptNumber
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/foia-requests
+      name: foia-requests
+      description: FOIA and Privacy Act requests for Alien File records
+      operations:
+      - method: POST
+        name: submit-foia-request
+        description: Submit a new FOIA or Privacy Act request for Alien File records
+        call: uscis-foia.submit-foia-request
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/foia-requests/{requestNumber}
+      name: foia-request-status
+      description: Status of a submitted FOIA request
+      operations:
+      - method: GET
+        name: get-foia-request-status
+        description: Check the status of a submitted FOIA request
+        call: uscis-foia.get-foia-request-status
+        with:
+          requestNumber: rest.requestNumber
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: uscis-immigration-case-management-mcp
+    transport: http
+    description: MCP server for AI-assisted immigration case management including case status monitoring and FOIA request
+      workflows.
+    tools:
+    - name: get-case-status
+      description: Retrieve the current immigration case status and complete history for a USCIS receipt number. Returns status
+        in English and Spanish with full historical timeline.
+      hints:
+        readOnly: true
+        openWorld: false
+      call: uscis-case-status.get-case-status
+      with:
+        receiptNumber: tools.receiptNumber
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: submit-foia-request
+      description: Submit a Freedom of Information Act (FOIA) or Privacy Act request for USCIS Alien File records on behalf
+        of a client. Returns a request number for status tracking.
+      hints:
+        readOnly: false
+        openWorld: false
+      call: uscis-foia.submit-foia-request
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-foia-request-status
+      description: Check the processing status of a previously submitted USCIS FOIA or Privacy Act request using the request
+        number.
+      hints:
+        readOnly: true
+        openWorld: false
+      call: uscis-foia.get-foia-request-status
+      with:
+        requestNumber: tools.requestNumber
+      outputParameters:
+      - type: object
+        mapping: $.
