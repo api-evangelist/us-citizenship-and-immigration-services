@@ -9,7 +9,7 @@ description: >-
   The Torch API Program enables qualified software developers to integrate USCIS services
   into immigration case management applications, providing OAuth 2.0 secured access to
   case status information and Freedom of Information Act (FOIA) request capabilities.
-type: Contract
+kind: contract
 position: Consuming
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
