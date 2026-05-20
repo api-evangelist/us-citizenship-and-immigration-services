@@ -20,6 +20,9 @@ created: '2024-12-03'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/apis.yml
 specificationVersion: '0.19'
+common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/uscis
 apis:
 - aid: us-citizenship-and-immigration-services:uscis-case-status-api
   name: USCIS Case Status API
