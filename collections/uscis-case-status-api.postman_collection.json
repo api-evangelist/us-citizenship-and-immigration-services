@@ -1,0 +1,346 @@
+{
+  "item": [
+    {
+      "id": "4aec4a30-c10e-4996-89f1-e9553be84d86",
+      "name": "Case Status",
+      "description": {
+        "content": "Immigration case status retrieval by receipt number",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "50ee813b-bd00-47eb-b0f8-6ca1feabdaa4",
+          "name": "Get Case Status By Receipt Number",
+          "request": {
+            "name": "Get Case Status By Receipt Number",
+            "description": {
+              "content": "Retrieves the current immigration case status and historical timeline for a specific USCIS receipt number. Returns status in both English and Spanish, along with form type, submission date, and modification date. Receipt numbers must be 13 characters: 3-letter prefix (EAC, LIN, SRC) followed by 10 digits.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":receiptNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "receiptNumber",
+                  "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "read:case-status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-int.uscis.gov/oauth/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b12c134f-cdd3-43e2-9140-689d44f25af4",
+              "name": "Case status successfully retrieved",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":receiptNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiptNumber",
+                      "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"receiptNumber\": \"EAC9999103402\",\n  \"formType\": \"I-485\",\n  \"submittedDate\": \"2023-03-15\",\n  \"modifiedDate\": \"2024-01-20\",\n  \"status\": \"Case Was Approved\",\n  \"description\": \"On January 20, 2024, we approved your Form I-485, Application to Register Permanent Residence or Adjust Status.\",\n  \"statusEsDesc\": \"El 20 de enero de 2024, aprobamos su Formulario I-485, Solicitud para Registrar Residencia Permanente o Ajustar Estatus.\",\n  \"historicalCaseStatuses\": [\n    {\n      \"status\": \"Case Was Received\",\n      \"date\": \"2023-03-20\",\n      \"description\": \"On March 20, 2023, we received your case.\",\n      \"descriptionEsDesc\": \"El 20 de marzo de 2023, recibimos su caso.\"\n    },\n    {\n      \"status\": \"Case Is Being Actively Reviewed by USCIS\",\n      \"date\": \"2023-09-15\",\n      \"description\": \"On September 15, 2023, we are actively reviewing your case.\",\n      \"descriptionEsDesc\": \"El 15 de septiembre de 2023, estamos revisando activamente su caso.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9429c3b-449f-4d91-a7fb-17c6fdb2e21f",
+              "name": "Unauthorized - invalid or expired OAuth 2.0 access token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":receiptNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiptNumber",
+                      "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"UNAUTHORIZED\",\n  \"message\": \"Invalid or expired access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed754103-792d-4445-b919-3103e8b6a777",
+              "name": "Receipt number not found in USCIS system",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":receiptNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiptNumber",
+                      "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"NOT_FOUND\",\n  \"message\": \"Receipt number not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c639881-7e2f-46e4-a6f4-081c6081f9da",
+              "name": "Unprocessable entity - receipt number format is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":receiptNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiptNumber",
+                      "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"INVALID_FORMAT\",\n  \"message\": \"Receipt number must be 13 characters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de47bbd8-683a-4530-85e9-8fba35648df4",
+              "name": "Rate limit exceeded (5 TPS or 1,000 daily requests)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":receiptNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiptNumber",
+                      "description": "(Required) The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"RATE_LIMIT_EXCEEDED\",\n  \"message\": \"Daily request limit of 1000 exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-int.uscis.gov/case-status",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7914ee22-ee61-4894-be64-fa028c070166",
+    "name": "USCIS Case Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USCIS Case Status API provides case status information to USCIS customers and their authorized representatives who require regular programmatic access to immigration case status information. Accepts a 13-character USCIS receipt number and returns the current status, form type, submission date, and historical case timeline in both English and Spanish. Accessed via the USCIS Torch API Program at developer.uscis.gov. Rate limits apply: 5 transactions per second, 1,000 requests per day.\n\nContact Support:\n Name: USCIS Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

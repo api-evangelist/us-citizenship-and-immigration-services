@@ -1,0 +1,568 @@
+{
+  "item": [
+    {
+      "id": "36158e3b-e185-4270-9c39-ce97d65d653b",
+      "name": "FOIA Requests",
+      "description": {
+        "content": "Submit and manage FOIA and Privacy Act requests for Alien File records",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fe1355cc-991f-4d25-a4ee-a79ad8ad6cdd",
+          "name": "Submit FOIA or Privacy Act Request",
+          "request": {
+            "name": "Submit FOIA or Privacy Act Request",
+            "description": {
+              "content": "Create a new Freedom of Information Act (FOIA) or Privacy Act (PA) request for Alien File material. The request can be submitted about or on behalf of the subject of record. A unique Request Number is returned upon successful creation, which can be used to track the request status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "requests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "read:foia-requests write:foia-requests"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-int.uscis.gov/oauth/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestType\": \"<string>\",\n  \"subjectFirstName\": \"<string>\",\n  \"subjectLastName\": \"<string>\",\n  \"requesterName\": \"<string>\",\n  \"requesterEmail\": \"<email>\",\n  \"requesterType\": \"<string>\",\n  \"descriptionOfRecords\": \"<string>\",\n  \"subjectMiddleName\": \"<string>\",\n  \"subjectDateOfBirth\": \"<date>\",\n  \"subjectCountryOfBirth\": \"<string>\",\n  \"subjectAlienNumber\": \"<string>\",\n  \"subjectReceiptNumber\": \"<string>\",\n  \"deliveryMethod\": \"email\",\n  \"feeWaiverRequest\": false,\n  \"expeditedProcessingRequest\": false,\n  \"expeditedProcessingJustification\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "988e18a3-5fea-4391-80d2-6c5c47027841",
+              "name": "FOIA request successfully submitted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestType\": \"FOIA\",\n  \"subjectFirstName\": \"Jane\",\n  \"subjectLastName\": \"Doe\",\n  \"subjectDateOfBirth\": \"1980-06-15\",\n  \"subjectCountryOfBirth\": \"Mexico\",\n  \"subjectAlienNumber\": \"A123456789\",\n  \"requesterName\": \"Jane Doe\",\n  \"requesterEmail\": \"jane.doe@example.com\",\n  \"requesterType\": \"self\",\n  \"descriptionOfRecords\": \"Requesting complete Alien File including all immigration applications, approvals, and correspondence\",\n  \"deliveryMethod\": \"email\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestNumber\": \"USCIS-2024-001234\",\n  \"status\": \"Received\",\n  \"submittedDate\": \"2024-01-15\",\n  \"estimatedCompletionDate\": \"2024-07-15\",\n  \"message\": \"Your FOIA request has been received and assigned number USCIS-2024-001234\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2203fe0d-fb7d-4c00-9aae-4848daecb461",
+              "name": "Bad request - invalid request body or missing required fields",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestType\": \"FOIA\",\n  \"subjectFirstName\": \"Jane\",\n  \"subjectLastName\": \"Doe\",\n  \"subjectDateOfBirth\": \"1980-06-15\",\n  \"subjectCountryOfBirth\": \"Mexico\",\n  \"subjectAlienNumber\": \"A123456789\",\n  \"requesterName\": \"Jane Doe\",\n  \"requesterEmail\": \"jane.doe@example.com\",\n  \"requesterType\": \"self\",\n  \"descriptionOfRecords\": \"Requesting complete Alien File including all immigration applications, approvals, and correspondence\",\n  \"deliveryMethod\": \"email\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae7d2837-b6f6-48c8-bf6d-788d93a5c23f",
+              "name": "Unauthorized - invalid or expired OAuth 2.0 access token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestType\": \"FOIA\",\n  \"subjectFirstName\": \"Jane\",\n  \"subjectLastName\": \"Doe\",\n  \"subjectDateOfBirth\": \"1980-06-15\",\n  \"subjectCountryOfBirth\": \"Mexico\",\n  \"subjectAlienNumber\": \"A123456789\",\n  \"requesterName\": \"Jane Doe\",\n  \"requesterEmail\": \"jane.doe@example.com\",\n  \"requesterType\": \"self\",\n  \"descriptionOfRecords\": \"Requesting complete Alien File including all immigration applications, approvals, and correspondence\",\n  \"deliveryMethod\": \"email\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c2de0b3-f4c3-4283-9cd8-cc44de5aa105",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestType\": \"FOIA\",\n  \"subjectFirstName\": \"Jane\",\n  \"subjectLastName\": \"Doe\",\n  \"subjectDateOfBirth\": \"1980-06-15\",\n  \"subjectCountryOfBirth\": \"Mexico\",\n  \"subjectAlienNumber\": \"A123456789\",\n  \"requesterName\": \"Jane Doe\",\n  \"requesterEmail\": \"jane.doe@example.com\",\n  \"requesterType\": \"self\",\n  \"descriptionOfRecords\": \"Requesting complete Alien File including all immigration applications, approvals, and correspondence\",\n  \"deliveryMethod\": \"email\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7db1e95a-8eb3-429d-9e64-f9efaccc2ed3",
+          "name": "Get FOIA Request Status",
+          "request": {
+            "name": "Get FOIA Request Status",
+            "description": {
+              "content": "Check the current status of a submitted FOIA or Privacy Act request using the Request Number returned when the request was created. Returns the current processing status and any available updates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "requests",
+                ":requestNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "requestNumber",
+                  "description": "(Required) The FOIA request number returned when the request was submitted. Format: USCIS-YYYY-NNNNNN"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "read:foia-requests write:foia-requests"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-int.uscis.gov/oauth/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1758869e-8546-4727-9dc6-3fdcbfe41c7e",
+              "name": "FOIA request status retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests",
+                    ":requestNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestNumber",
+                      "description": "(Required) The FOIA request number returned when the request was submitted. Format: USCIS-YYYY-NNNNNN"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestNumber\": \"USCIS-2024-001234\",\n  \"status\": \"In Process\",\n  \"requestType\": \"FOIA\",\n  \"submittedDate\": \"2024-01-15\",\n  \"lastUpdated\": \"2024-03-01\",\n  \"estimatedCompletionDate\": \"2024-07-15\",\n  \"subjectName\": \"Jane Doe\",\n  \"notes\": \"Request is currently being processed by the National Records Center\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d45e5a4-f507-4396-ac72-c5651a971ed4",
+              "name": "Unauthorized - invalid or expired access token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests",
+                    ":requestNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestNumber",
+                      "description": "(Required) The FOIA request number returned when the request was submitted. Format: USCIS-YYYY-NNNNNN"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b5b63ad-b157-48b8-abee-f710f5d71e77",
+              "name": "Request number not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests",
+                    ":requestNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestNumber",
+                      "description": "(Required) The FOIA request number returned when the request was submitted. Format: USCIS-YYYY-NNNNNN"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07648ef9-4c27-41e3-8cfe-cb28b9fcc8eb",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requests",
+                    ":requestNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestNumber",
+                      "description": "(Required) The FOIA request number returned when the request was submitted. Format: USCIS-YYYY-NNNNNN"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-int.uscis.gov/foia",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1568cd7c-c9bf-4bd8-84d1-f60f8d40471e",
+    "name": "USCIS FOIA Request and Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USCIS FOIA Request and Status API enables consumers to submit Freedom of Information Act (FOIA) or Privacy Act (PA) requests for Alien File records and to check the status of submitted requests. When a new request is created, a Request Number is returned that can be used to track the request status. Available through the USCIS Torch API Program at developer.uscis.gov. Authentication uses OAuth 2.0 client credentials flow.\n\nContact Support:\n Name: USCIS Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
