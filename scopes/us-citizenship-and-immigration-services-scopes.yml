@@ -1,0 +1,39 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/uscis-case-status-api-openapi.yml, openapi/uscis-foia-api-openapi.yml
+schemes:
+- name: OAuth2
+  source: openapi/uscis-case-status-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-int.uscis.gov/oauth/accesstoken
+  description: OAuth 2.0 Client Credentials flow. Obtain an access token from the USCIS token
+    endpoint using your client_id and client_secret registered at developer.uscis.gov. Tokens
+    expire after 1,800 seconds (30 minutes).
+- name: OAuth2
+  source: openapi/uscis-foia-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-int.uscis.gov/oauth/accesstoken
+  description: OAuth 2.0 Client Credentials flow. Obtain an access token from the USCIS token
+    endpoint using your client_id and client_secret registered at developer.uscis.gov. Tokens
+    expire after 1,800 seconds (30 minutes).
+scopes:
+- scope: read:case-status
+  description: Read immigration case status information
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uscis-case-status-api-openapi.yml
+- scope: read:foia-requests
+  description: Read FOIA request status
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uscis-foia-api-openapi.yml
+- scope: write:foia-requests
+  description: Submit FOIA requests
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uscis-foia-api-openapi.yml
