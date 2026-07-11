@@ -22,6 +22,8 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 common:
+  - type: DomainSecurity
+    url: security/us-citizenship-and-immigration-services-domain-security.yml
   - type: Authentication
     url: authentication/us-citizenship-and-immigration-services-authentication.yml
   - type: OAuthScopes
