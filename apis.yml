@@ -8,9 +8,22 @@ description: >-
   qualified software developers to integrate USCIS services into immigration case management applications, providing
   OAuth 2.0 secured access to case status information and Freedom of Information Act (FOIA) request capabilities.
 kind: contract
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consuming
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/us-citizenship-and-immigration-services.png
 tags:
   - Federal Government
   - Immigration
@@ -33,59 +46,48 @@ common:
   - type: LinkedIn
     url: https://www.linkedin.com/company/uscis
 apis:
-  - aid: us-citizenship-and-immigration-services:uscis-case-status-api
-    name: USCIS Case Status API
-    description: >-
-      The USCIS Case Status API provides case status information to USCIS customers and their representatives who
-      require regular access to case status information. It accepts a 13-character USCIS receipt number and returns the
-      current case status, form type, submission date, and historical status timeline in English and Spanish.
-      Authentication uses OAuth 2.0 client credentials flow. Rate limits: 5 transactions per second, 1,000 daily
-      requests.
-    humanURL: https://developer.uscis.gov/api/case-status
-    baseURL: https://api-int.uscis.gov/case-status
-    tags:
-      - Federal Government
-      - Immigration
-      - Case Status
-      - USCIS
-    properties:
-      - type: Documentation
-        url: https://developer.uscis.gov/api/case-status
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/openapi/uscis-case-status-api-openapi.yml
-      - type: DeveloperPortal
-        url: https://developer.uscis.gov/
-      - type: Sandbox
-        url: https://developer.uscis.gov/get-started/sandbox
-      - type: Authentication
-        url: https://developer.uscis.gov/article/how-get-access-tokens-client-credentials
-    contact:
-      - FN: USCIS Developer Support
-        url: https://developer.uscis.gov/
-  - aid: us-citizenship-and-immigration-services:uscis-foia-request-and-status-api
-    name: USCIS FOIA Request and Status API
-    description: >-
-      The USCIS FOIA Request and Status API enables consumers to submit Freedom of Information Act (FOIA) or Privacy Act
-      (PA) requests for Alien File records and check the status of submitted requests using the Request Number returned
-      upon creation. Authentication uses OAuth 2.0 client credentials. Version 1.2.0 is the current production version.
-    humanURL: https://developer.uscis.gov/api/foia-request-and-status
-    baseURL: https://api-int.uscis.gov/foia
-    tags:
-      - Federal Government
-      - Immigration
-      - FOIA
-      - Alien File
-      - Privacy Act
-      - USCIS
-    properties:
-      - type: Documentation
-        url: https://developer.uscis.gov/api/foia-request-and-status
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/openapi/uscis-foia-api-openapi.yml
-      - type: DeveloperPortal
-        url: https://developer.uscis.gov/
+- aid: >-
+    us-citizenship-and-immigration-services:us-citizenship-and-immigration-services-case-status-api
+  name: US Citizenship and Immigration Services Case Status API
+  description: Immigration case status retrieval by receipt number
+  humanURL: https://developer.uscis.gov/api/case-status
+  baseURL: https://api-int.uscis.gov/case-status
+  tags:
+  - Case Status
+  properties:
+  - type: OpenAPI
+    url: openapi/us-citizenship-and-immigration-services-case-status-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uscis.gov/api/case-status
+  - type: DeveloperPortal
+    url: https://developer.uscis.gov/
+  - type: Sandbox
+    url: https://developer.uscis.gov/get-started/sandbox
+  - type: Authentication
+    url: https://developer.uscis.gov/article/how-get-access-tokens-client-credentials
+  - type: Documentation
+    url: https://developer.uscis.gov/api/foia-request-and-status
+- aid: >-
+    us-citizenship-and-immigration-services:us-citizenship-and-immigration-services-foia-requests-api
+  name: US Citizenship and Immigration Services FOIA Requests API
+  description: Submit and manage FOIA and Privacy Act requests for Alien File records
+  humanURL: https://developer.uscis.gov/api/case-status
+  baseURL: https://api-int.uscis.gov/case-status
+  tags:
+  - FOIA Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/us-citizenship-and-immigration-services-foia-requests-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uscis.gov/api/case-status
+  - type: DeveloperPortal
+    url: https://developer.uscis.gov/
+  - type: Sandbox
+    url: https://developer.uscis.gov/get-started/sandbox
+  - type: Authentication
+    url: https://developer.uscis.gov/article/how-get-access-tokens-client-credentials
+  - type: Documentation
+    url: https://developer.uscis.gov/api/foia-request-and-status
 features:
   - name: Case Status Lookup
     description: Retrieve current and historical case status by receipt number
