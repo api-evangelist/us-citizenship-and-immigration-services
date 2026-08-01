@@ -1,0 +1,16 @@
+{
+  "provider": "us-citizenship-and-immigration-services",
+  "sources": [
+    "us-citizenship-and-immigration-services-case-status-api-openapi.yml",
+    "us-citizenship-and-immigration-services-foia-requests-api-openapi.yml"
+  ],
+  "outputs": [
+    "us-citizenship-and-immigration-services-case-status-api-openapi.yml",
+    "us-citizenship-and-immigration-services-foia-requests-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

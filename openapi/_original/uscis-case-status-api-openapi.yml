@@ -1,0 +1,229 @@
+openapi: 3.1.0
+info:
+  title: USCIS Case Status API
+  description: >-
+    The USCIS Case Status API provides case status information to USCIS customers
+    and their authorized representatives who require regular programmatic access
+    to immigration case status information. Accepts a 13-character USCIS receipt
+    number and returns the current status, form type, submission date, and
+    historical case timeline in both English and Spanish. Accessed via the USCIS
+    Torch API Program at developer.uscis.gov. Rate limits apply: 5 transactions
+    per second, 1,000 requests per day.
+  version: '1.0'
+  contact:
+    name: USCIS Developer Support
+    url: https://developer.uscis.gov/
+  termsOfService: https://developer.uscis.gov/
+externalDocs:
+  description: USCIS Case Status API Documentation
+  url: https://developer.uscis.gov/api/case-status
+servers:
+  - url: https://api-int.uscis.gov/case-status
+    description: USCIS Sandbox/Integration Environment
+tags:
+  - name: Case Status
+    description: Immigration case status retrieval by receipt number
+paths:
+  /{receiptNumber}:
+    get:
+      operationId: getCaseStatus
+      summary: Get Case Status By Receipt Number
+      description: >-
+        Retrieves the current immigration case status and historical timeline
+        for a specific USCIS receipt number. Returns status in both English
+        and Spanish, along with form type, submission date, and modification
+        date. Receipt numbers must be 13 characters: 3-letter prefix (EAC, LIN,
+        SRC) followed by 10 digits.
+      tags:
+        - Case Status
+      security:
+        - OAuth2:
+            - read:case-status
+      parameters:
+        - name: receiptNumber
+          in: path
+          required: true
+          description: >-
+            The 13-character USCIS receipt number. Format: 3-letter prefix
+            (EAC=Vermont Service Center, LIN=Nebraska Service Center,
+            SRC=Texas Service Center) followed by 10 digits.
+          schema:
+            type: string
+            pattern: '^(EAC|LIN|SRC|IOE|MSC|NBC|WAC|YSC)\d{10}$'
+            minLength: 13
+            maxLength: 13
+          examples:
+            vermont-service-center:
+              summary: Vermont Service Center receipt
+              value: EAC9999103402
+            nebraska-service-center:
+              summary: Nebraska Service Center receipt
+              value: LIN9912345678
+      responses:
+        '200':
+          description: Case status successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseStatusResponse'
+              example:
+                receiptNumber: EAC9999103402
+                formType: I-485
+                submittedDate: '2023-03-15'
+                modifiedDate: '2024-01-20'
+                status: Case Was Approved
+                description: >-
+                  On January 20, 2024, we approved your Form I-485, Application
+                  to Register Permanent Residence or Adjust Status.
+                statusEsDesc: >-
+                  El 20 de enero de 2024, aprobamos su Formulario I-485,
+                  Solicitud para Registrar Residencia Permanente o Ajustar
+                  Estatus.
+                historicalCaseStatuses:
+                  - status: Case Was Received
+                    date: '2023-03-20'
+                    description: On March 20, 2023, we received your case.
+                    descriptionEsDesc: >-
+                      El 20 de marzo de 2023, recibimos su caso.
+                  - status: Case Is Being Actively Reviewed by USCIS
+                    date: '2023-09-15'
+                    description: >-
+                      On September 15, 2023, we are actively reviewing your
+                      case.
+                    descriptionEsDesc: >-
+                      El 15 de septiembre de 2023, estamos revisando activamente
+                      su caso.
+        '401':
+          description: Unauthorized - invalid or expired OAuth 2.0 access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: UNAUTHORIZED
+                message: Invalid or expired access token
+        '404':
+          description: Receipt number not found in USCIS system
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: NOT_FOUND
+                message: Receipt number not found
+        '422':
+          description: Unprocessable entity - receipt number format is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: INVALID_FORMAT
+                message: Receipt number must be 13 characters
+        '429':
+          description: Rate limit exceeded (5 TPS or 1,000 daily requests)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: RATE_LIMIT_EXCEEDED
+                message: Daily request limit of 1000 exceeded
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 Client Credentials flow. Obtain an access token from the
+        USCIS token endpoint using your client_id and client_secret registered
+        at developer.uscis.gov. Tokens expire after 1,800 seconds (30 minutes).
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-int.uscis.gov/oauth/accesstoken
+          scopes:
+            read:case-status: Read immigration case status information
+  schemas:
+    CaseStatusResponse:
+      type: object
+      description: Immigration case status response
+      required:
+        - receiptNumber
+        - status
+        - description
+      properties:
+        receiptNumber:
+          type: string
+          description: The USCIS receipt number for this case
+          example: EAC9999103402
+        formType:
+          type: string
+          description: The form type associated with this case
+          examples:
+            - I-485
+            - I-130
+            - I-765
+            - I-90
+            - N-400
+        submittedDate:
+          type: string
+          format: date
+          description: Date the application was submitted to USCIS
+          example: '2023-03-15'
+        modifiedDate:
+          type: string
+          format: date
+          description: Date the case status was last modified
+          example: '2024-01-20'
+        status:
+          type: string
+          description: Current case status (English)
+          examples:
+            - Case Was Received
+            - Case Is Being Actively Reviewed by USCIS
+            - Case Was Approved
+            - Case Was Denied
+            - Request for Evidence Was Sent
+        description:
+          type: string
+          description: Detailed description of the current status in English
+        statusEsDesc:
+          type: string
+          description: Detailed description of the current status in Spanish
+        historicalCaseStatuses:
+          type: array
+          description: Historical timeline of case status changes
+          items:
+            $ref: '#/components/schemas/HistoricalStatus'
+    HistoricalStatus:
+      type: object
+      description: A historical case status entry in the case timeline
+      properties:
+        status:
+          type: string
+          description: Status label for this historical entry
+        date:
+          type: string
+          format: date
+          description: Date of this status event
+        description:
+          type: string
+          description: Description of this historical status in English
+        descriptionEsDesc:
+          type: string
+          description: Description of this historical status in Spanish
+    ErrorResponse:
+      type: object
+      description: Error response from the USCIS Case Status API
+      properties:
+        error:
+          type: string
+          description: Error code
+          examples:
+            - UNAUTHORIZED
+            - NOT_FOUND
+            - INVALID_FORMAT
+            - RATE_LIMIT_EXCEEDED
+            - INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: Human-readable error message
