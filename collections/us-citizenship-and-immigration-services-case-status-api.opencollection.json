@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USCIS Case Status API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Case Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Case Status By Receipt Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-int.uscis.gov/case-status/:receiptNumber",
+            "params": [
+              {
+                "name": "receiptNumber",
+                "value": "",
+                "type": "path",
+                "description": "The 13-character USCIS receipt number. Format: 3-letter prefix (EAC=Vermont Service Center, LIN=Nebraska Service Center, SRC=Texas Service Center) followed by 10 digits."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-int.uscis.gov/oauth/accesstoken",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the current immigration case status and historical timeline for a specific USCIS receipt number. Returns status in both English and Spanish, along with form type, submission date, and modification date. Receipt numbers must be 13 characters: 3-letter prefix (EAC, LIN, SRC) followed by 10 digits."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
