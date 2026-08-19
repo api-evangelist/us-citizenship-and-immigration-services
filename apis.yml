@@ -33,7 +33,7 @@ tags:
 created: '2024-12-03'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 common:
   - type: AgenticAccess
     url: agentic-access/us-citizenship-and-immigration-services-agentic-access.yml
