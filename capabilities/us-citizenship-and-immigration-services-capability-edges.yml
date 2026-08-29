@@ -1,0 +1,35 @@
+slug: us-citizenship-and-immigration-services
+provider: US Citizenship and Immigration Services
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Public Sector & Government
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: FOIA Requests
+  spec_file: us-citizenship-and-immigration-services-foia-requests-api-openapi.yml
+  capability_id: BC-3220.40
+  capability_id_l1: BC-3220
+  capability_name: Service Request and Inquiry Handling
+  confidence: 0.85
+  evidence: POST /requests  submitFoiaRequest  Submit FOIA or Privacy Act Request
+  reason: Intake and status tracking of freedom-of-information and Privacy Act submissions matches Service
+    Request and Inquiry Handling, which explicitly covers 'freedom-of-information submissions across channels'.
+- tag: Case Status
+  spec_file: us-citizenship-and-immigration-services-case-status-api-openapi.yml
+  capability_id: BC-3300
+  capability_id_l1: BC-3300
+  capability_name: Border & Immigration Management
+  confidence: 0.8
+  evidence: '"provides case status information ... programmatic access to immigration case status information";
+    GET /{receiptNumber} getCaseStatus'
+  reason: Operations expose adjudication status of immigration benefit applications (green cards, work
+    permits, naturalisation), squarely within Border & Immigration Management. Left at L1 because the
+    receipt-number lookup spans visa, status and naturalisation sub-capabilities without naming one.
