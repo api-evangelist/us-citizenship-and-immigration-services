@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: USCIS Case Status FOIA Requests API
-  description: 'The USCIS Case Status API provides case status information to USCIS customers and their authorized representatives who require regular programmatic access to immigration case status information. Accepts a 13-character USCIS receipt number and returns the current status, form type, submission date, and historical case timeline in both English and Spanish. Accessed via the USCIS Torch API Program at developer.uscis.gov. Rate limits apply: 5 transactions per second, 1,000 requests per day.'
-  version: '1.0'
+  title: USCIS FOIA Request and Status FOIA Requests API
+  description: The USCIS FOIA Request and Status API enables consumers to submit Freedom of Information Act (FOIA) or Privacy Act (PA) requests for Alien File records and to check the status of submitted requests. When a new request is created, a Request Number is returned that can be used to track the request status. Available through the USCIS Torch API Program at developer.uscis.gov. Authentication uses OAuth 2.0 client credentials flow.
+  version: 1.2.0
   contact:
     name: USCIS Developer Support
     url: https://developer.uscis.gov/
   termsOfService: https://developer.uscis.gov/
 servers:
-- url: https://api-int.uscis.gov/case-status
+- url: https://api-int.uscis.gov/foia
   description: USCIS Sandbox/Integration Environment
 tags:
 - name: FOIA Requests
@@ -128,21 +128,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: string
-          description: Additional error details
     FoiaRequestStatusResponse:
       type: object
       description: Current status of a submitted FOIA request
@@ -292,6 +277,21 @@ components:
         expeditedProcessingJustification:
           type: string
           description: Justification for expedited processing, if requested
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: string
+          description: Additional error details
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -300,7 +300,8 @@ components:
         clientCredentials:
           tokenUrl: https://api-int.uscis.gov/oauth/accesstoken
           scopes:
-            read:case-status: Read immigration case status information
+            read:foia-requests: Read FOIA request status
+            write:foia-requests: Submit FOIA requests
 externalDocs:
-  description: USCIS Case Status API Documentation
-  url: https://developer.uscis.gov/api/case-status
+  description: USCIS FOIA Request and Status API Documentation
+  url: https://developer.uscis.gov/api/foia-request-and-status

@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: USCIS Case Status API
   description: 'The USCIS Case Status API provides case status information to USCIS customers and their authorized representatives who require regular programmatic access to immigration case status information. Accepts a 13-character USCIS receipt number and returns the current status, form type, submission date, and historical case timeline in both English and Spanish. Accessed via the USCIS Torch API Program at developer.uscis.gov. Rate limits apply: 5 transactions per second, 1,000 requests per day.'
@@ -154,22 +154,6 @@ components:
           description: Historical timeline of case status changes
           items:
             $ref: '#/components/schemas/HistoricalStatus'
-    ErrorResponse:
-      type: object
-      description: Error response from the USCIS Case Status API
-      properties:
-        error:
-          type: string
-          description: Error code
-          examples:
-          - UNAUTHORIZED
-          - NOT_FOUND
-          - INVALID_FORMAT
-          - RATE_LIMIT_EXCEEDED
-          - INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: Human-readable error message
     HistoricalStatus:
       type: object
       description: A historical case status entry in the case timeline
@@ -187,6 +171,22 @@ components:
         descriptionEsDesc:
           type: string
           description: Description of this historical status in Spanish
+    ErrorResponse:
+      type: object
+      description: Error response from the USCIS Case Status API
+      properties:
+        error:
+          type: string
+          description: Error code
+          examples:
+          - UNAUTHORIZED
+          - NOT_FOUND
+          - INVALID_FORMAT
+          - RATE_LIMIT_EXCEEDED
+          - INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: Human-readable error message
   securitySchemes:
     OAuth2:
       type: oauth2

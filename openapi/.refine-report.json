@@ -1,8 +1,8 @@
 {
   "provider": "us-citizenship-and-immigration-services",
   "sources": [
-    "us-citizenship-and-immigration-services-case-status-api-openapi.yml",
-    "us-citizenship-and-immigration-services-foia-requests-api-openapi.yml"
+    "_original/uscis-case-status-api-openapi.yml",
+    "_original/uscis-foia-api-openapi.yml"
   ],
   "outputs": [
     "us-citizenship-and-immigration-services-case-status-api-openapi.yml",
@@ -11,6 +11,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "uscis-case-status-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "uscis-foia-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "us-citizenship-and-immigration-services-case-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "us-citizenship-and-immigration-services-foia-requests-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
