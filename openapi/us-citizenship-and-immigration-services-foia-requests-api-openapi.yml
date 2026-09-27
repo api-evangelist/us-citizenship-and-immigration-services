@@ -170,6 +170,21 @@ components:
         notes:
           type: string
           description: Additional processing notes or status details
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: string
+          description: Additional error details
     FoiaRequestCreatedResponse:
       type: object
       description: Response returned when a FOIA request is successfully submitted
@@ -277,21 +292,6 @@ components:
         expeditedProcessingJustification:
           type: string
           description: Justification for expedited processing, if requested
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: string
-          description: Additional error details
   securitySchemes:
     OAuth2:
       type: oauth2

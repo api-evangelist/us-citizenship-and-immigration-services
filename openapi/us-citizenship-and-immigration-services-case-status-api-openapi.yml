@@ -103,6 +103,22 @@ paths:
                 message: Daily request limit of 1000 exceeded
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Error response from the USCIS Case Status API
+      properties:
+        error:
+          type: string
+          description: Error code
+          examples:
+          - UNAUTHORIZED
+          - NOT_FOUND
+          - INVALID_FORMAT
+          - RATE_LIMIT_EXCEEDED
+          - INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: Human-readable error message
     CaseStatusResponse:
       type: object
       description: Immigration case status response
@@ -171,22 +187,6 @@ components:
         descriptionEsDesc:
           type: string
           description: Description of this historical status in Spanish
-    ErrorResponse:
-      type: object
-      description: Error response from the USCIS Case Status API
-      properties:
-        error:
-          type: string
-          description: Error code
-          examples:
-          - UNAUTHORIZED
-          - NOT_FOUND
-          - INVALID_FORMAT
-          - RATE_LIMIT_EXCEEDED
-          - INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: Human-readable error message
   securitySchemes:
     OAuth2:
       type: oauth2

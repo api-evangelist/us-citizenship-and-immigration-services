@@ -36,7 +36,7 @@ position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/us-citizenship-and-immigration-services.png
 tags:
-  - Federal-Government
+  - Federal Government
   - Immigration
   - Citizenship
   - Case Status
@@ -47,6 +47,7 @@ tags_raw:
   - Citizenship
   - Case Status
   - FOIA
+  - Federal-Government
 created: '2024-12-03'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/apis.yml
