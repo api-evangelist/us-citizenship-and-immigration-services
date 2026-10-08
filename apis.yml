@@ -53,6 +53,12 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/us-citizenship-and-immigration-services/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 common:
+  - type: Plans
+    url: plans/us-citizenship-and-immigration-services-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/us-citizenship-and-immigration-services-rate-limits.yml
+  - type: FinOps
+    url: finops/us-citizenship-and-immigration-services-finops.yml
   - type: CapabilityMap
     url: capabilities/us-citizenship-and-immigration-services-capability-edges.yml
     name: US Citizenship and Immigration Services Business Capability Map
